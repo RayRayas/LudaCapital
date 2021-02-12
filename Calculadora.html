@@ -1,10 +1,10 @@
-<!doctype html>
+<<!doctype html>
 <html class="no-js" lang="zxx">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Luda Capital | Calculadora</title>
+    <title>Luda Capital | Nosotros</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -25,6 +25,41 @@
     <link rel="stylesheet" href="css/slick.css">
     <link rel="stylesheet" href="css/slicknav.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script data-require="angular.js@1.4.0-beta.6" data-semver="1.4.0-beta.6" src="https://code.angularjs.org/1.4.0-beta.6/angular.js"></script>
+    <script src="js/CalculadoraInversion.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript">
+function mostrar(id) {
+    if (id == "anualFijo") {
+        $("#anualFijo").show();
+        $("#anualCompuesto").hide();
+        $("#semestralFijo").hide();
+        $("#semestralCompuesto").hide();
+    }
+
+    if (id == "anualCompuesto") {
+        $("#anualFijo").hide();
+        $("#anualCompuesto").show();
+        $("#semestralFijo").hide();
+        $("#semestralCompuesto").hide();
+    }
+
+    if (id == "semestralFijo") {
+        $("#anualFijo").hide();
+        $("#anualCompuesto").hide();
+        $("#semestralFijo").show();
+        $("#semestralCompuesto").hide();
+    }
+
+    if (id == "semestralCompuesto") {
+        $("#anualFijo").hide();
+        $("#anualCompuesto").hide();
+        $("#semestralFijo").hide();
+        $("#semestralCompuesto").show();
+    }
+}
+</script>
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 </head>
 
@@ -118,7 +153,7 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="bradcam_text">
-                            <h3>Nosotros</h3>
+                            <h3>Calcula tu credito</h3>
                         </div>
                     </div>
                 </div>
@@ -127,7 +162,7 @@
         <!--/ bradcam_area  -->
 
     <!-- about_info_area start  -->
-    <div class="about_info_area plus_padding">
+    <!--<div class="about_info_area plus_padding">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-xl-6 col-lg-6">
@@ -148,13 +183,13 @@ para ser la empresa líder en atención y servicio.
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- /about_info_area end  -->
 
    
     
 
-    <!-- team_area  -->
+    <!-- Simulador de credito  -->
     <div class="team_area minus_padding">
             <div class="container">
                 <div class="border_bottom">
@@ -162,11 +197,13 @@ para ser la empresa líder en atención y servicio.
                         <div class="col-xl-12">
                             <div class="section_title mb-40 text-center">
                                 <h3>
-                                       Luda Capital
+                                      Simulador de Credito
                                 </h3>
                             </div>
                         </div>
                     </div>
+
+                    <!--
                     <div class="row">
                         <div class="col-xl-4 col-lg-4 col-md-6">
                             <div class="single_team">
@@ -192,11 +229,266 @@ para ser la empresa líder en atención y servicio.
                              
                             </div>
                         </div>
+                    </div> -->
+                    <form action="index.php" method="post">
+                            <h3>Elige tu plan: </h3>
+                            <select id="status" name="status" onChange="mostrar(this.value);">
+                                <option value="#">Selecciona una opción</option>
+                                <option value="anualFijo">Plan Anual Fijo</option>
+                                <option value="anualCompuesto">Plan Anual Compuesto</option>
+                                <option value="semestralFijo">Plan Semestral Fijo</option>
+                                <option value="semestralCompuesto">Plan Semestral Compuesto</option>
+                             </select>
+                    </form>
+                <!-- Plan anual fijo -->     
+                    <div ng-app="myApp" ng-controller="calculatorCtrl" ng-init='cal=true' id="anualFijo" style="display: none;">
+                        <h2>Plan Anual Fijo</h2>
+                        <form action="index.php" method="post">
+                               <form>
+                            <h3>Monto de inversión</h3>
+                            <div class="input-group">
+                                <span class="input-group-addon">$</span>
+                                <input ng-model="montoInicial" type="number" step="any" min=”25000″ class="form-control" placeholder="Monto Minimo $25,000">
+                            </div>
+                             
+                            <h3>Incremento Mensual</h3>
+                            <div class="input-group">
+                                <span class="input-group-addon">$</span>
+                                <input ng-model="incrementoMensual" type="number" step="any" min=”0″ class="form-control" placeholder="monto">
+                            </div>
+                            
+                           <h3>Rendimiento Anual <span style=" font-style: italic; ">aprox</span></h3>
+                            <div class="input-group">
+                                <span class="input-group-addon">%</span>
+                                <input ng-model="rendimiento" type="text" class="form-control" placeholder="Rendimiento">
+                            </div>
+                            <h3>Tiempo Proyectado</h3>
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                <input ng-model="dias" type="text" class="form-control" placeholder="meses">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <button type="submit" class="btn btn-default boxed-btn3 margin"  ng-click="result= calc(montoInicial,incrementoMensual ,rendimiento,dias-1)">Calcular</button>
+                                <button type="submit" class="btn btn-default boxed-btn3  margin" ng-click="reset()">Reset</button>
+                                <button type="submit" class="btn btn-default boxed-btn3 margin" ng-click="download()">Download</button>
+                                <h3>Monto Total: {{result[0] | number : 2 }}</h3>
+                                <h3>Rendimiento Total: {{result[1]| number : 2}}</h3>        
+                            </div>      
+                        </form>
+                        <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th>Mes</th>
+                                <th>Monto</th>
+                                <th>Rendimiento</th>
+                              </tr>
+                            </thead>
+                            <tbody ng-model="objmeses">
+                                <tr ng-repeat="x in objmeses">
+                                    <td>{{ x.mes }}</td>
+                                    <td>{{ x.monto | number : 2 }}</td>
+                                    <td>{{ x.rendimiento| number : 2}}</td>
+                                 </tr>
+                            </tbody>
+                            </table>
+
+                         
+                     </div>
+                     
+                        </form>
+                
+                    
+                    
+
+                <!-- /Plan anual fijo -->   
+                <!-- Plan anual compuesto -->   
+                    <div ng-app="myApp" ng-controller="calculatorCtrl" ng-init='cal=true' id="anualCompuesto" style="display: none;">
+                        <h2>Plan Anual Compuesto</h2>
+                        <form action="index.php" method="post">
+                               <form>
+                            <h3>Monto de inversión</h3>
+                            <div class="input-group">
+                                <span class="input-group-addon">$</span>
+                                <input ng-model="montoInicial" type="number" step="any" min=”0″ class="form-control" placeholder="Monto Minimo $25,000">
+                            </div>
+                             
+                            <h3>Incremento Mensual</h3>
+                            <div class="input-group">
+                                <span class="input-group-addon">$</span>
+                                <input ng-model="incrementoMensual" type="number" step="any" min=”0″ class="form-control" placeholder="monto">
+                            </div>
+                            
+                           <h3>Rendimiento Anual <span style=" font-style: italic; ">aprox</span></h3>
+                            <div class="input-group">
+                                <span class="input-group-addon">%</span>
+                                <input ng-model="rendimiento" type="text" class="form-control" placeholder="Rendimiento">
+                            </div>
+                            <h3>Tiempo Proyectado</h3>
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                <input ng-model="dias" type="text" class="form-control" placeholder="meses">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <button type="submit" class="btn btn-default boxed-btn3 margin"  ng-click="result= calc(montoInicial,incrementoMensual ,rendimiento,dias-1)">Calcular</button>
+                                <button type="submit" class="btn btn-default boxed-btn3 margin" ng-click="reset()">Reset</button>
+                                <button type="submit" class="btn btn-default boxed-btn3 margin" ng-click="download()">Download</button>
+                                <h3>Monto Total: {{result[0] | number : 2 }}</h3>
+                                <h3>Rendimiento Total: {{result[1]| number : 2}}</h3>        
+                            </div>      
+                        </form>
+                        <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th>Mes</th>
+                                <th>Monto</th>
+                                <th>Rendimiento</th>
+                              </tr>
+                            </thead>
+                            <tbody ng-model="objmeses">
+                                <tr ng-repeat="x in objmeses">
+                                    <td>{{ x.mes }}</td>
+                                    <td>{{ x.monto | number : 2 }}</td>
+                                    <td>{{ x.rendimiento| number : 2}}</td>
+                                 </tr>
+                            </tbody>
+                            </table>
+
+                         
+                     </div>
+                     
+                        </form>
+                
+                    
+                 <!-- /Plan anual compuesto -->  
+                 <!-- Plan semsetral fijo --> 
+                    <div ng-app="myApp" ng-controller="calculatorCtrl" ng-init='cal=true' id="semestralFijo" style="display: none;">
+                        <h2>Plan Semestral Fijo</h2>
+                        <form action="index.php" method="post">
+                               <form>
+                            <h3>Monto de inversión</h3>
+                            <div class="input-group">
+                                <span class="input-group-addon">$</span>
+                                <input ng-model="montoInicial" type="number" step="any" min=”0″ class="form-control" placeholder="Monto Minimo $25,000">
+                            </div>
+                             
+                            <h3>Incremento Mensual</h3>
+                            <div class="input-group">
+                                <span class="input-group-addon">$</span>
+                                <input ng-model="incrementoMensual" type="number" step="any" min=”0″ class="form-control" placeholder="monto">
+                            </div>
+                            
+                           <h3>Rendimiento Anual <span style=" font-style: italic; ">aprox</span></h3>
+                            <div class="input-group">
+                                <span class="input-group-addon">%</span>
+                                <input ng-model="rendimiento" type="text" class="form-control" placeholder="Rendimiento">
+                            </div>
+                            <h3>Tiempo Proyectado</h3>
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                <input ng-model="dias" type="text" class="form-control" placeholder="meses">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <button type="submit" class="btn btn-default boxed-btn3 margin"  ng-click="result= calc(montoInicial,incrementoMensual ,rendimiento,dias-1)">Calcular</button>
+                                <button type="submit" class="btn btn-default boxed-btn3 margin" ng-click="reset()">Reset</button>
+                                <button type="submit" class="btn btn-default boxed-btn3 margin" ng-click="download()">Download</button>
+                                <h3>Monto Total: {{result[0] | number : 2 }}</h3>
+                                <h3>Rendimiento Total: {{result[1]| number : 2}}</h3>        
+                            </div>      
+                        </form>
+                        <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th>Mes</th>
+                                <th>Monto</th>
+                                <th>Rendimiento</th>
+                              </tr>
+                            </thead>
+                            <tbody ng-model="objmeses">
+                                <tr ng-repeat="x in objmeses">
+                                    <td>{{ x.mes }}</td>
+                                    <td>{{ x.monto | number : 2 }}</td>
+                                    <td>{{ x.rendimiento| number : 2}}</td>
+                                 </tr>
+                            </tbody>
+                            </table>
+
+                         
+                     </div>
+                     
+                        </form>
                     </div>
+                  <!-- /Plan semsetral fijo --> 
+
+             
+                 <!-- Plan semsetral compuesto --> 
+                    <div ng-app="myApp" ng-controller="calculatorCtrl" ng-init='cal=true' id="semestralCompuesto" style="display: none;">
+                        <h2>Plan semestral Compuesto</h2>
+                        <form action="index.php" method="post">
+                               <form>
+                            <h3>Monto de inversión</h3>
+                            <div class="input-group">
+                                <span class="input-group-addon">$</span>
+                                <input ng-model="montoInicial" type="number" step="any" min=”0″ class="form-control" placeholder="Monto Minimo $25,000">
+                            </div>
+                             
+                            <h3>Incremento Mensual</h3>
+                            <div class="input-group">
+                                <span class="input-group-addon">$</span>
+                                <input ng-model="incrementoMensual" type="number" step="any" min=”0″ class="form-control" placeholder="monto">
+                            </div>
+                            
+                           <h3>Rendimiento Anual <span style=" font-style: italic; ">aprox</span></h3>
+                            <div class="input-group">
+                                <span class="input-group-addon">%</span>
+                                <input ng-model="rendimiento" type="text" class="form-control" placeholder="Rendimiento">
+                            </div>
+                            <h3>Tiempo Proyectado</h3>
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                <input ng-model="dias" type="text" class="form-control" placeholder="meses">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <button type="submit" class="btn btn-default boxed-btn3 margin"  ng-click="result= calc(montoInicial,incrementoMensual ,rendimiento,dias-1)">Calcular</button>
+                                <button type="submit" class="btn btn-default boxed-btn3 margin" ng-click="reset()">Reset</button>
+                                <button type="submit" class="btn btn-default boxed-btn3 margin" ng-click="download()">Download</button>
+                                <h3>Monto Total: {{result[0] | number : 2 }}</h3>
+                                <h3>Rendimiento Total: {{result[1]| number : 2}}</h3>        
+                            </div>      
+                        </form>
+                        <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th>Mes</th>
+                                <th>Monto</th>
+                                <th>Rendimiento</th>
+                              </tr>
+                            </thead>
+                            <tbody ng-model="objmeses">
+                                <tr ng-repeat="x in objmeses">
+                                    <td>{{ x.mes }}</td>
+                                    <td>{{ x.monto | number : 2 }}</td>
+                                    <td>{{ x.rendimiento| number : 2}}</td>
+                                 </tr>
+                            </tbody>
+                            </table>
+
+                         
+                     </div>
+                     
+                        </form>
+                    </div>
+                <!-- Plan semsetral compuesto  fin--> 
+            </div>
+                        
+            </div>
                 </div>
             </div>
         </div>
-    <!-- /team_area  -->
+    <!-- /simulador de credito  -->
 
     
     <!-- Information_area  -->
