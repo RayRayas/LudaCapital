@@ -172,6 +172,7 @@ h3 {
   font-size: 24px;
 }
 
+
 /* line 116, ../../Arafath/CL/CL October/216. Consulting/HTML/scss/theme-default.scss */
 .mb-65 {
   margin-bottom: 67px;
@@ -7335,4 +7336,57 @@ h6 {
 /* estilos agregados RayRayas */
 .margin {
   margin-right: 2rem;
+}
+.section_title h4 {
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 76px;
+  color: #001D38;
+  position: relative;
+  z-index: 0;
+  padding-bottom: 10px;
+}
+
+@media (max-width: 767px) {
+  
+  .section_title h4 {
+    font-size: 30px;
+    line-height: 36px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+ 
+  .section_title h4 {
+    font-size: 25px;
+    line-height: 42px;
+  }
+}
+
+@media (max-width: 767px) {
+
+  .section_title h4 br {
+    display: none;
+  }
+}
+
+}
+.opciones:hover{
+    box-shadow: 0 1px 6px 0 #20212447;
+    border-color: #dfe1e500;
+}
+
+.opciones{
+    
+    padding: 0 2px;
+    border-radius: 100px;
+    border: 1px solid #dfe1e5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    margin-top: 15px;ç
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 3px;
 }
