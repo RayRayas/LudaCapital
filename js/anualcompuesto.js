@@ -2,16 +2,23 @@
 var myApp = angular.module('myApp', []);
 
 
-myApp.controller('calculatorCtrl', function($scope) {
-    var objmeses=[];
+myApp.controller('calculatorCtrl', function($scope)  {
+   
+  var objmeses=[];
+    
    function Calular_rendimiento(montoInicial,rendimiento,dias){
-   	return (montoInicial*rendimiento/100*dias)/360;
+   	var dias = 365
+    return (montoInicial*rendimiento/100*dias)/360;
    }
    
    function calcTotal(monto_inicial,monto_mensual, porcentaje, meses){
+    var meses = 0
+    var porcentaje = 80;
       var total_monto = monto_inicial;
-      var rendimiento = (total_monto*porcentaje/100)/12;
+      var rendimiento = (total_monto*porcentaje/100);
       var total_rendimiento = rendimiento;
+      
+      
 
       for( var mes = 0; mes <=meses; mes++){
         
@@ -19,8 +26,8 @@ myApp.controller('calculatorCtrl', function($scope) {
          
         }
         else{
-          total_monto+=rendimiento+monto_mensual;
-          rendimiento=(total_monto*porcentaje/100)/12;
+          total_monto = monto_inicial;
+          rendimiento=(total_monto*porcentaje/100);
           total_rendimiento +=rendimiento; 
 
         }
@@ -29,11 +36,20 @@ myApp.controller('calculatorCtrl', function($scope) {
 
         }
 
-      return [total_monto+rendimiento,total_rendimiento];
+      return [total_monto+total_rendimiento,total_rendimiento];
     }
-    function JSONToCSVConvertor(JSONData,ShowLabel) {    
-  var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;   
-  var CSV = '';     
+    function JSONToCSVConvertor(JSONData,ShowLabel) { 
+         
+  var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+  var json = JSON.stringify( $scope.appdata, function( key, value ) {
+    if( key === "$$hashKey" ) {
+        return undefined;
+    }
+
+    return value;
+}); 
+  var CSV = 'Rendimiento anual 80%,' + '\r';    
+  
   if (ShowLabel) {
      var row = "";
      for (var index in arrData[0]) {
@@ -42,6 +58,7 @@ myApp.controller('calculatorCtrl', function($scope) {
      row = row.slice(0, -1);
      CSV += row + '\r\n';
   }
+  
   for (var i = 0; i < arrData.length; i++) {
      var row = "";
      for (var index in arrData[i]) {
@@ -55,7 +72,8 @@ myApp.controller('calculatorCtrl', function($scope) {
      growl.error("Invalid data");
      return;
   }   
-  var fileName = "Result";
+  
+  var fileName = "LUDA Capital Corrida financiera";
   if(msieversion()){
   var IEwindow = window.open();
   IEwindow.document.write('sep=,\r\n' + CSV);
@@ -109,3 +127,14 @@ function msieversion() {
 });  
  
 
+var _DatetoJSON = Date.prototype.toJSON;
+Date.prototype.toJSON = function() {
+  try {
+    return _DatetoJSON.call(this);
+  } catch(e) {
+    if (e instanceof RangeError) {
+      return null;
+    }
+    throw e;
+  }
+};
