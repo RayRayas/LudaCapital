@@ -12,10 +12,10 @@ myApp.controller('calculatorCtrl', function($scope)  {
    }
    
    function calcTotal(monto_inicial,monto_mensual, porcentaje, meses){
-    var meses =5 
+    var meses =0 
     var porcentaje = 30;
       var total_monto = monto_inicial;
-      var rendimiento = (total_monto*porcentaje/100)/6;
+      var rendimiento = (total_monto*porcentaje/100);
       var total_rendimiento = rendimiento;
       
       
@@ -27,7 +27,7 @@ myApp.controller('calculatorCtrl', function($scope)  {
         }
         else{
           total_monto = monto_inicial;
-          rendimiento=(total_monto*porcentaje/100)/6;
+          rendimiento=(total_monto*porcentaje/100);
           total_rendimiento +=rendimiento; 
 
         }
@@ -48,7 +48,7 @@ myApp.controller('calculatorCtrl', function($scope)  {
 
     return value;
 }); 
-  var CSV = 'Rendimiento anual 60% a 12 meses,' + '\r';    
+  var CSV = 'Rendimiento semestral al 30%,' + '\r';    
   
   if (ShowLabel) {
      var row = "";
